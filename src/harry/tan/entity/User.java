@@ -2,7 +2,7 @@ package harry.tan.entity;
 
 import java.util.Date;
 
-public class User {
+public class User implements Person{
     private String  name;
     private Integer age;
     private String  information;
@@ -67,4 +67,12 @@ public class User {
     public void setAge(Integer pAge) {
         age = pAge;
     }
+
+
+
+	@Override
+	public void sys() {
+		System.out.println("SB");
+		
+	}
 }

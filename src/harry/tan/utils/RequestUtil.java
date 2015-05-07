@@ -114,20 +114,15 @@ public class RequestUtil {
      * @return
      * @throws IOException 
      */
-    public static Properties getDbParam() throws IOException{
+    public static Properties getDbParam(){
     	Properties props = new Properties();
     	InputStream in = null;
-    	try {
-			in = new BufferedInputStream(new FileInputStream(HomeWorkConstant.DB_FILE_PATH));
-		} catch (FileNotFoundException e) {
-			throw new FileNotFoundException("can't find the file of database,please check it");
-		}
-    	
+    	in = new BufferedInputStream(RequestUtil.class.getClassLoader().getResourceAsStream(HomeWorkConstant.DB_FILE_PATH));
     	try 
     	{
 			props.load(in);
 		} catch (IOException e) {
-			throw new IOException("load file is failed",e);
+			System.err.println("load file is failed");
 		}
     	
     	return props;
