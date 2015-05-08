@@ -1,5 +1,5 @@
 package harry.tan.entity;
 
-public interface Person {
+public interface Person extends SuperPerson{
 	public void sys();
 }

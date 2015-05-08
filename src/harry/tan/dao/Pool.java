@@ -20,7 +20,6 @@ import javax.sql.DataSource;
 public class Pool implements DataSource{
 	
 	private static LinkedList<Connection> connections  = new LinkedList<Connection>();
-
 	static
 	{
 		try 
@@ -33,8 +32,24 @@ public class Pool implements DataSource{
 			Integer initSize = Integer.valueOf(p.getProperty("initSize",HomeWorkConstant.EMPTY));
 			Class.forName(DBDrive);
 			for(int i=0;i<initSize;i++){
-				Connection conn = DriverManager.getConnection(DBUrl, DBUser, DBPassword);
-				connections.add(conn);
+				final Connection conn = DriverManager.getConnection(DBUrl, DBUser, DBPassword);
+				
+				// 动态代理实现调用close方法自动添加到连接池
+				Connection connfinal = (Connection)Proxy.newProxyInstance(Pool.class.getClassLoader(), new Class[]{Connection.class}, new InvocationHandler() {
+                    @Override
+                    public Object invoke(Object pProxy, Method pMethod, Object[] pArgs) throws Throwable {
+                        if(pMethod.getName().equals("close")){
+                            connections.addLast(conn);
+                            return null;
+                        }
+                        else
+                        {
+                            return pMethod.invoke(conn,pArgs);
+                        }
+                    }
+                });
+				
+				connections.add(connfinal);
 			}
 		}
 		catch (ClassNotFoundException e) {
@@ -55,7 +70,6 @@ public class Pool implements DataSource{
 		return 0;
 	}
 
-	@Override
 	public Logger getParentLogger() throws SQLFeatureNotSupportedException {
 		return null;
 	}
@@ -83,24 +97,7 @@ public class Pool implements DataSource{
 	@Override
 	public Connection getConnection() throws SQLException {
 		if(connections.size() > 0){
-			final Connection conn = connections.removeFirst();
-			return (Connection)Proxy.newProxyInstance(Pool.class.getClassLoader(), Connection.class.getInterfaces(), new InvocationHandler(){
-
-				@Override
-				public Object invoke(Object proxy, Method method, Object[] args)
-						throws Throwable {
-					if(method.getName().equals("close")){
-						connections.addLast(conn);
-						return null;
-					}
-					else
-					{
-						return method.invoke(conn,args);
-					}
-					
-				}
-				
-			});
+		    return connections.removeFirst();
 		}
 		else
 		{
@@ -112,6 +109,10 @@ public class Pool implements DataSource{
 	public Connection getConnection(String username, String password)
 			throws SQLException {
 		
-		return null;
-	}
+        return null;
+    }
+	
+	public int getConnectionAmount(){
+	    return connections.size();
+	} 
 }
