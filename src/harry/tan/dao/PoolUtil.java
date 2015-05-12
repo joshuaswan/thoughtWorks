@@ -12,6 +12,9 @@ public class PoolUtil {
 		return pool.getConnection();
 	}
 	
+	public static int getAviableConnections(){
+	    return pool.getConnectionAmount();
+	}
 	/**
 	 * release source
 	 * @param conn

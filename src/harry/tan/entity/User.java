@@ -72,7 +72,14 @@ public class User implements Person{
 
 	@Override
 	public void sys() {
-		System.out.println("SB");
+		System.out.println("sys");
 		
 	}
+
+
+
+    @Override
+    public void come() {
+     System.out.println("come");
+    }
 }
