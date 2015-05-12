@@ -1,38 +1,19 @@
 package harry.tan.entity;
 
-import java.util.Date;
-
-public class User implements Person{
-    private String  name;
-    private Integer age;
+public class User{
+	private String userId;
+	private String  name;
+	private String  sex;
     private String  information;
-    private String  address;
-    private Date    birthDay;
-
-
-    public Date getBirthDay() {
-		return birthDay;
+    
+    
+    public String getUserId() {
+		return userId;
 	}
 
-
-
-	public void setBirthDay(Date birthDay) {
-		this.birthDay = birthDay;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
-
-
-
-	public String getAddress() {
-        return address;
-    }
-
-
-
-    public void setAddress(String pAddress,Integer p) {
-        address = pAddress;
-    }
-
-
 
     public String getName() {
         return name;
@@ -44,42 +25,19 @@ public class User implements Person{
         name = pName;
     }
 
-
-
     public String getInformation() {
         return information;
     }
-
-
 
     public void setInformation(String pInformation) {
         information = pInformation;
     }
 
-
-
-    public Integer getAge() {
-        return age;
-    }
-
-
-
-    public void setAge(Integer pAge) {
-        age = pAge;
-    }
-
-
-
-	@Override
-	public void sys() {
-		System.out.println("sys");
-		
+	public String getSex() {
+		return sex;
 	}
 
-
-
-    @Override
-    public void come() {
-     System.out.println("come");
-    }
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
 }
