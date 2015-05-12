@@ -84,7 +84,7 @@ public class Pool implements DataSource{
 	public Connection getConnection() throws SQLException {
 		if(connections.size() > 0){
 			final Connection conn = connections.removeFirst();
-			return (Connection)Proxy.newProxyInstance(Pool.class.getClassLoader(), Connection.class.getInterfaces(), new InvocationHandler(){
+			return (Connection)Proxy.newProxyInstance(Pool.class.getClassLoader(),new Class[]{Connection.class}, new InvocationHandler(){
 
 				@Override
 				public Object invoke(Object proxy, Method method, Object[] args)

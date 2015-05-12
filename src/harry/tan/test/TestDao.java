@@ -22,6 +22,9 @@ public class TestDao {
 			
 			Connection conn = PoolUtil.getConnection();
 			System.out.println(conn);
+			
+			conn.close();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
