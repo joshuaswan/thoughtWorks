@@ -33,9 +33,6 @@ public class LoginServlet extends HttpServlet {
         try {
             User user = RequestUtil.getEntity(pReq, User.class);
             
-            System.out.println(user.getName());
-            System.out.println(user.getAge());
-            System.out.println(user.getBirthDay());
             
         } catch (SecurityException e) {
             e.printStackTrace();
