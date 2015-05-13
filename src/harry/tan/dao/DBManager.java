@@ -78,12 +78,12 @@ public class DBManager {
         try {
             conn = PoolUtil.getConnection();
             preparedStatement = conn.prepareStatement(sql);
-            if(preparedStatement.getMetaData().getColumnCount() != objects.length){
+            if(preparedStatement.getParameterMetaData().getParameterCount() != objects.length){
                 throw new RuntimeException("参数个数不匹配");
             }
             
             for (int i = 0; i < objects.length; i++) {
-                preparedStatement.setObject(i + 1, objects[i]);
+                preparedStatement.setObject(i+1, objects[i]);
             }
             
             rs = preparedStatement.executeQuery();
@@ -92,13 +92,14 @@ public class DBManager {
                 // 有必要去实例化listMap
                 listMap = new ArrayList<Map<String,Object>>();
                 while(rs.next()){
+                	Map<String,Object> map = new HashMap<String, Object>();
                     for(int i=0;i<rs.getMetaData().getColumnCount();i++){
-                        Map<String,Object> map = new HashMap<String, Object>();
                         final String columName = rs.getMetaData().getColumnName(i+1);
                         final Object columValue = rs.getObject(columName);
                         map.put(columName, columValue);
-                        listMap.add(map);
                     }
+                    
+                    listMap.add(map);
                 }
                 
                 return listMap;
@@ -116,5 +117,15 @@ public class DBManager {
         
         return null;
     }
-
+    
+    /**
+     * 加载单个对象
+     * @param sql
+     * @param object
+     * @return
+     */
+    public Map<String,Object> loadObject(String sql, Object object){
+    	List<Map<String,Object>> listMap = this.executeQuery(sql, object);
+    	return listMap.size() > 0 ? listMap.get(0) : null;
+    }
 }
