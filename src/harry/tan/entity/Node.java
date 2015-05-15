@@ -1,54 +1,28 @@
 package harry.tan.entity;
 
-public class Node {
-	public Node(String start, String end) {
-		super();
-		this.start = start;
-		this.end = end;
-	}
+import java.util.HashMap;
+import java.util.Map;
 
-	private String start;
-	private String end;
-	private int distance;
-	public Node() {
-	}
-	public Node(String start, String end, int distance) {
-		this.start = start;
-		this.end = end;
-		this.distance = distance;
-	}
-	public String getStart() {
-		return start;
-	}
-	public void setStart(String start) {
-		this.start = start;
-	}
-	public String getEnd() {
-		return end;
-	}
-	public void setEnd(String end) {
-		this.end = end;
-	}
-	public int getDistance() {
-		return distance;
-	}
-	public void setDistance(int distance) {
-		this.distance = distance;
-	}
-	
-	@Override
-	public boolean equals(Object obj) {
-		if(this == obj){
-			return true;
-		}
-		
-		if(obj instanceof Node){
-			Node otherObj = (Node)obj;
-			if(this.start.equals(otherObj.getStart()) && this.end.equals(otherObj.getEnd())){
-				return true;
-			}
-		}
-		
-		return false;
-	}
+public class Node {
+    
+    // 节点名称
+    private String name;  
+    
+    //子节点，key为Node对象
+    private Map<Node,Integer> child=new HashMap<Node,Integer>();  
+    public Node(String name){  
+        this.name=name;  
+    }  
+    public String getName() {  
+        return name;  
+    }  
+    public void setName(String name) {  
+        this.name = name;  
+    }  
+    public Map<Node, Integer> getChild() {  
+        return child;  
+    }  
+    public void setChild(Map<Node, Integer> child) {  
+        this.child = child;  
+    }  
 }
